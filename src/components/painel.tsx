@@ -1,10 +1,11 @@
 "use client"
 
 import { useNetworkState } from "@uidotdev/usehooks"
-import { BarChart2, Clock, Home, Package, PackageCheck, Settings, Truck, Wifi, WifiOff } from "lucide-react"
+import { BarChart2, Clock, Home, Menu, Package, PackageCheck, Settings, Truck, Wifi, WifiOff } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { MLPieChart } from "@/components/ui/pie-chart"
 import { useToast } from "@/hooks/use-toast"
 
@@ -193,37 +194,53 @@ export default function PainelComponent() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="bg-primary text-primary-foreground shadow-md">
-        <div className="container mx-auto flex items-center justify-between px-4 py-2">
+        <div className="container mx-auto flex flex-wrap items-center justify-between px-4 py-2">
           <h1 className="text-2xl font-bold">Painel Mercado Livre</h1>
-          <div className="flex items-center space-x-4">
+          <div className="mt-2 flex items-center space-x-4 sm:mt-0">
             <Clock className="size-5" />
-            <span>{formatarHora(horaAtual)}</span>
-            <span>{formatarData(horaAtual)}</span>
+            <span className="hidden sm:inline">{formatarHora(horaAtual)}</span>
+            <span className="hidden md:inline">{formatarData(horaAtual)}</span>
           </div>
         </div>
       </header>
       <nav className="bg-secondary">
         <div className="container mx-auto flex items-center justify-between px-4 py-2">
-          <ul className="flex space-x-4">
-            <li>
-              <Button variant="ghost" className="text-secondary-foreground">
+          <div className="hidden space-x-4 sm:flex">
+            <Button variant="ghost" className="text-secondary-foreground">
+              <Home className="mr-2 size-4" />
+              Início
+            </Button>
+            <Button variant="ghost" className="text-secondary-foreground">
+              <BarChart2 className="mr-2 size-4" />
+              Relatórios
+            </Button>
+            <Button variant="ghost" className="text-secondary-foreground">
+              <Settings className="mr-2 size-4" />
+              Configurações
+            </Button>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="sm:hidden">
+              <Button variant="outline" size="icon">
+                <Menu className="size-[1.2rem]" />
+                <span className="sr-only">Menu de navegação</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>
                 <Home className="mr-2 size-4" />
-                Início
-              </Button>
-            </li>
-            <li>
-              <Button variant="ghost" className="text-secondary-foreground">
+                <span>Início</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <BarChart2 className="mr-2 size-4" />
-                Relatórios
-              </Button>
-            </li>
-            <li>
-              <Button variant="ghost" className="text-secondary-foreground">
+                <span>Relatórios</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <Settings className="mr-2 size-4" />
-                Configurações
-              </Button>
-            </li>
-          </ul>
+                <span>Configurações</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <div className="flex items-center">
             {isOnline ? <Wifi className={`size-5 ${getColor()}`} /> : <WifiOff className="size-5 text-red-500" />}
             <span className="ml-2">{formatarNetworkRTT(network.rtt)}</span>
