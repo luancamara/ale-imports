@@ -1,5 +1,6 @@
 import { Metadata } from "next"
-import { PainelComponent } from "@/components/painel"
+import dynamic from "next/dynamic"
+import { Loading } from "@/components/ui/loading"
 
 export const metadata: Metadata = {
   title: "Next.js Enterprise Boilerplate",
@@ -18,6 +19,11 @@ export const metadata: Metadata = {
   },
 }
 
+const DynamicPainelWithNoSSR = dynamic(() => import("@/components/painel"), {
+  ssr: false,
+  loading: () => <Loading />,
+})
+
 export default function Web() {
-  return <PainelComponent />
+  return <DynamicPainelWithNoSSR />
 }

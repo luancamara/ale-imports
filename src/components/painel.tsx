@@ -8,31 +8,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MLPieChart } from "@/components/ui/pie-chart"
 import { useToast } from "@/hooks/use-toast"
 
-type NetworkStatus = "good" | "medium" | "bad" | "offline"
+export default function PainelComponent() {
+  type NetworkStatus = "good" | "medium" | "bad" | "offline"
 
-// Dados simulados atualizados - substitua por chamadas de API reais em uma aplicação real
-const dadosConta = {
-  conta1: {
-    nome: "Conta 1",
-    mlColeta: 50,
-    mlFlex: 30,
-    horarioLimite: "18:00",
-    pedidosSeparados: 40,
-    pedidosEmbalados: 35,
-  },
-  conta2: {
-    nome: "Conta 2",
-    mlColeta: 40,
-    mlFlex: 20,
-    horarioLimite: "19:00",
-    pedidosSeparados: 18, // Aproximadamente 30% dos pedidos separados
-    pedidosEmbalados: 15,
-  },
-}
+  // Dados simulados atualizados - substitua por chamadas de API reais em uma aplicação real
+  const dadosConta = {
+    conta1: {
+      nome: "Conta 1",
+      mlColeta: 50,
+      mlFlex: 30,
+      horarioLimite: "18:00",
+      pedidosSeparados: 40,
+      pedidosEmbalados: 35,
+    },
+    conta2: {
+      nome: "Conta 2",
+      mlColeta: 40,
+      mlFlex: 20,
+      horarioLimite: "19:00",
+      pedidosSeparados: 18, // Aproximadamente 30% dos pedidos separados
+      pedidosEmbalados: 15,
+    },
+  }
 
-const CORES = ["#0088FE", "#00C49F", "#FFBB28"]
-
-export function PainelComponent() {
   const network = useNetworkState()
   const [horaAtual, setHoraAtual] = useState(new Date())
   const [isOnline, setIsOnline] = useState(navigator.onLine)
