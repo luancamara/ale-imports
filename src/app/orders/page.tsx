@@ -1,8 +1,8 @@
 import { Metadata } from "next"
-import { DynamicPainelWithNoSSR } from "@/components/painel-no-ssr"
+import { OrderTable } from "@/components/order-table"
 
 export const metadata: Metadata = {
-  title: "Ale Imports",
+  title: "Ale Imports | Orders",
   twitter: {
     card: "summary_large_image",
   },
@@ -19,5 +19,5 @@ export const metadata: Metadata = {
 }
 
 export default function Web() {
-  return <DynamicPainelWithNoSSR />
+  return <OrderTable />
 }

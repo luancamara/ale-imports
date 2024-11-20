@@ -1,18 +1,23 @@
 import withBundleAnalyzer from "@next/bundle-analyzer"
+import { createJiti } from "jiti"
 import withPlugins from "next-compose-plugins"
-import { env } from "./env.mjs"
+import { fileURLToPath } from "node:url"
+
+const jiti = createJiti(fileURLToPath(import.meta.url))
+
+jiti("./src/lib/env")
 
 /**
  * @type {import('next').NextConfig}
  */
-const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
+const config = withPlugins([[withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" })]], {
   reactStrictMode: true,
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
-  experimental: { instrumentationHook: true },
+  instrumentationHook: true,
   rewrites() {
     return [
       { source: "/healthz", destination: "/api/health" },

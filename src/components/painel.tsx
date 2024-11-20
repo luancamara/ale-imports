@@ -2,12 +2,19 @@
 
 import { useNetworkState } from "@uidotdev/usehooks"
 import { BarChart2, Clock, Home, Menu, Package, PackageCheck, Settings, Truck, Wifi, WifiOff } from "lucide-react"
+import dynamic from "next/dynamic"
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Loading } from "@/components/ui/loading"
 import { MLPieChart } from "@/components/ui/pie-chart"
 import { useToast } from "@/hooks/use-toast"
+
+const DynamicPainelWithNoSSR = dynamic(() => import("@/components/painel"), {
+  ssr: false,
+  loading: () => <Loading />,
+})
 
 export default function PainelComponent() {
   type NetworkStatus = "good" | "medium" | "bad" | "offline"
