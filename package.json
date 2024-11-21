@@ -128,7 +128,7 @@
     "webpack": "5.89.0"
   },
   "engines": {
-    "node": ">=22.11.0"
+    "node": ">=20"
   },
   "packageManager": "yarn@1.22.19"
 }
