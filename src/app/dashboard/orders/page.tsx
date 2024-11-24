@@ -20,9 +20,5 @@ export const metadata: Metadata = {
 }
 
 export default function OrdersPage() {
-  return (
-    <MainLayout>
-      <OrderTable />
-    </MainLayout>
-  )
+  return <OrderTable />
 }
