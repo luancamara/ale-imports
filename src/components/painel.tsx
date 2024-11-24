@@ -17,8 +17,6 @@ const DynamicPainelWithNoSSR = dynamic(() => import("@/components/painel"), {
 })
 
 export default function PainelComponent() {
-  type NetworkStatus = "good" | "medium" | "bad" | "offline"
-
   // Dados simulados atualizados - substitua por chamadas de API reais em uma aplicação real
   const dadosConta = {
     conta1: {
@@ -37,114 +35,6 @@ export default function PainelComponent() {
       pedidosSeparados: 18, // Aproximadamente 30% dos pedidos separados
       pedidosEmbalados: 15,
     },
-  }
-
-  const network = useNetworkState()
-  const [horaAtual, setHoraAtual] = useState(new Date())
-  const [isOnline, setIsOnline] = useState(navigator.onLine)
-  const [connectionQuality, setConnectionQuality] = useState<NetworkStatus>("good")
-  const { toast } = useToast()
-
-  useEffect(() => {
-    const temporizador = setInterval(() => setHoraAtual(new Date()), 1000)
-
-    const handleOnline = () => {
-      setIsOnline(true)
-      setConnectionQuality("good")
-      toast({
-        title: "Conexão restabelecida",
-        description: "Sua conexão com a internet foi restaurada.",
-        duration: 3000,
-      })
-    }
-
-    const handleOffline = () => {
-      setIsOnline(false)
-      setConnectionQuality("offline")
-      toast({
-        variant: "destructive",
-        title: "Sem conexão",
-        description: "Você está offline. Verifique sua conexão com a internet.",
-      })
-    }
-
-    const checkConnectionSpeed = async () => {
-      const startTime = Date.now()
-      try {
-        const response = await fetch("https://www.cloudflare.com/cdn-cgi/trace", { cache: "no-store" })
-        const endTime = Date.now()
-        const duration = endTime - startTime
-
-        console.log("Tempo de resposta:", duration)
-
-        if (duration > 1000) {
-          // If the request takes more than 1 second
-          setConnectionQuality("bad")
-          toast({
-            title: "Conexão lenta",
-            description: "Sua conexão está lenta. Isso pode afetar a atualização dos dados.",
-            duration: 5000,
-          })
-        } else {
-          setConnectionQuality("good")
-        }
-      } catch (error) {
-        console.error("Erro ao verificar a velocidade da conexão:", error)
-      }
-    }
-
-    window.addEventListener("online", handleOnline)
-    window.addEventListener("offline", handleOffline)
-
-    // Check connection speed every 30 seconds
-    const speedCheckInterval = setInterval(checkConnectionSpeed, 30000)
-
-    return () => {
-      clearInterval(temporizador)
-      clearInterval(speedCheckInterval)
-      window.removeEventListener("online", handleOnline)
-      window.removeEventListener("offline", handleOffline)
-    }
-  }, [toast])
-
-  const formatarNetworkRTT = (rtt?: number | null) => {
-    if (!rtt) return "offline"
-    return rtt + " ms"
-  }
-
-  const calcRTTStatus = (rtt?: number | null): NetworkStatus => {
-    if (!rtt) return "offline"
-
-    if (rtt < 100) {
-      return "good"
-    } else if (rtt < 200) {
-      return "medium"
-    } else {
-      return "bad"
-    }
-  }
-
-  const getColor = useCallback(() => {
-    const status = calcRTTStatus(network.rtt)
-
-    switch (status) {
-      case "good":
-        return "text-green-500"
-      case "medium":
-        return "text-yellow-500"
-      case "bad":
-        return "text-red-500"
-      default:
-        return "text-gray-500"
-    }
-  }, [network.rtt])
-
-  const formatarHora = (data: Date) => {
-    return data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
-  }
-
-  const formatarData = (data: Date) => {
-    return data.toLocaleDateString("pt-BR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })
   }
 
   const totalPedidos = (conta: typeof dadosConta.conta1) => conta.mlColeta + conta.mlFlex
@@ -199,61 +89,7 @@ export default function PainelComponent() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="bg-primary text-primary-foreground shadow-md">
-        <div className="container mx-auto flex flex-wrap items-center justify-between px-4 py-2">
-          <h1 className="text-2xl font-bold">Painel Mercado Livre</h1>
-          <div className="mt-2 flex items-center space-x-4 sm:mt-0">
-            <Clock className="size-5" />
-            <span className="hidden sm:inline">{formatarHora(horaAtual)}</span>
-            <span className="hidden md:inline">{formatarData(horaAtual)}</span>
-          </div>
-        </div>
-      </header>
-      <nav className="bg-secondary">
-        <div className="container mx-auto flex items-center justify-between px-4 py-2">
-          <div className="hidden space-x-4 sm:flex">
-            <Button variant="ghost" className="text-secondary-foreground">
-              <Home className="mr-2 size-4" />
-              Início
-            </Button>
-            <Button variant="ghost" className="text-secondary-foreground">
-              <BarChart2 className="mr-2 size-4" />
-              Relatórios
-            </Button>
-            <Button variant="ghost" className="text-secondary-foreground">
-              <Settings className="mr-2 size-4" />
-              Configurações
-            </Button>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="sm:hidden">
-              <Button variant="outline" size="icon">
-                <Menu className="size-[1.2rem]" />
-                <span className="sr-only">Menu de navegação</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Home className="mr-2 size-4" />
-                <span>Início</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BarChart2 className="mr-2 size-4" />
-                <span>Relatórios</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 size-4" />
-                <span>Configurações</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <div className="flex items-center">
-            {isOnline ? <Wifi className={`size-5 ${getColor()}`} /> : <WifiOff className="size-5 text-red-500" />}
-            <span className="ml-2">{formatarNetworkRTT(network.rtt)}</span>
-          </div>
-        </div>
-      </nav>
+    <div className="flex flex-col">
       <main className="grow bg-background">
         <div className="container mx-auto p-4">
           <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">

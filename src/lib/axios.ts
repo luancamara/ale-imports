@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios"
+import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { getToken, refreshToken } from "@/actions/oauth"
 import { env } from "@/lib/env"
 
@@ -30,6 +30,11 @@ api.interceptors.response.use(
         const { access_token } = await refreshToken()
 
         const originalRequestConfig = error.config
+
+        if (!originalRequestConfig) {
+          return Promise.reject(error)
+        }
+
         originalRequestConfig.headers = originalRequestConfig.headers || {}
         originalRequestConfig.headers["Authorization"] = `Bearer ${access_token}`
 
@@ -42,3 +47,45 @@ api.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+export async function fetcher(args: [string, AxiosRequestConfig] | string) {
+  try {
+    const [url, config] = Array.isArray(args) ? args : [args]
+
+    const res = await api.get(url, { ...config })
+
+    return res.data
+  } catch (error) {
+    console.error("Failed to fetch:", error)
+    throw error
+  }
+}
+
+// ----------------------------------------------------------------------
+
+export const endpoints = {
+  auth: {
+    me: "/api/auth/me",
+    signIn: "/api/auth/sign-in",
+    signUp: "/api/auth/sign-up",
+  },
+  calendar: "/api/calendar",
+  chat: "/api/chat",
+  kanban: "/api/kanban",
+  mail: {
+    details: "/api/mail/details",
+    labels: "/api/mail/labels",
+    list: "/api/mail/list",
+  },
+  post: {
+    details: "/api/post/details",
+    latest: "/api/post/latest",
+    list: "/api/post/list",
+    search: "/api/post/search",
+  },
+  product: {
+    details: "/api/product/details",
+    list: "/api/product/list",
+    search: "/api/product/search",
+  },
+}
