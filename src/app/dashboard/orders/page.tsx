@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import MainLayout from "@/components/main-layout"
 import { OrderTable } from "@/components/order-table"
 
 export const metadata: Metadata = {
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Web() {
-  return <OrderTable />
+export default function OrdersPage() {
+  return (
+    <MainLayout>
+      <OrderTable />
+    </MainLayout>
+  )
 }

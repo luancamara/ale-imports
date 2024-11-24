@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/sidebar"
 
 const menuItems = [
-  { icon: Home, label: "Dashboard", href: "/" },
+  { icon: Home, label: "Dashboard", href: "/dashboard" },
   // { icon: ClipboardCheckIcon, label: "Relatórios", href: "/reports" },
-  { icon: ClipboardCheckIcon, label: "Pedidos", href: "/orders" },
-  { icon: Settings, label: "Configurações", href: "/settings" },
+  { icon: ClipboardCheckIcon, label: "Pedidos", href: "/dashboard/orders" },
+  { icon: Settings, label: "Configurações", href: "/dashboard/settings" },
 ]
 
 export function AppSidebar() {
