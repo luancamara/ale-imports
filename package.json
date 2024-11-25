@@ -22,7 +22,10 @@
     "coupling-graph": "npx madge --extensions js,jsx,ts,tsx,css,md,mdx ./ --exclude '.next|tailwind.config.js|reset.d.ts|prettier.config.js|postcss.config.js|playwright.config.ts|next.config.js|next-env.d.ts|instrumentation.ts|src/e2e/|README.md|.storybook/|.eslintrc.js' --image graph.svg"
   },
   "dependencies": {
+    "@antfu/eslint-config": "^3.9.2",
+    "@eslint/compat": "^1.2.3",
     "@next/bundle-analyzer": "15.0.3",
+    "@next/eslint-plugin-next": "^15.0.3",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -55,6 +58,11 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
+    "eslint-plugin-jest-dom": "^5.5.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-perfectionist": "^4.1.2",
+    "eslint-plugin-playwright": "^2.1.0",
+    "eslint-plugin-testing-library": "^7.0.0",
     "firebase": "^11.0.2",
     "jiti": "^2.4.0",
     "lodash": "^4.17.21",

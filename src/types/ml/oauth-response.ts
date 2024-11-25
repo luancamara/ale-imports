@@ -1,5 +1,5 @@
-import { FirestoreDataConverter } from "@firebase/firestore"
-import { z } from "zod"
+import type { FirestoreDataConverter } from '@firebase/firestore'
+import { z } from 'zod'
 
 export const MLOauthTokenResponseSchema = z.object({
   access_token: z.string(),

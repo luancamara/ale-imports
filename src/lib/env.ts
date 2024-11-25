@@ -1,9 +1,9 @@
-import { createEnv } from "@t3-oss/env-nextjs"
-import { z } from "zod"
+import { createEnv } from '@t3-oss/env-nextjs'
+import { z } from 'zod'
 
 export const env = createEnv({
   server: {
-    ANALYZE: z.enum(["true", "false"]).optional(),
+    ANALYZE: z.enum(['true', 'false']).optional(),
     ML_CLIENT_SECRET: z.string().optional(),
     ML_CLIENT_ID: z.string().optional(),
     ML_REFRESH_TOKEN: z.string().optional(),

@@ -1,13 +1,13 @@
-import { type ClassValue, clsx } from "clsx"
-import dayjs from "dayjs"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from 'clsx'
+import dayjs from 'dayjs'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export type Today = {
-  start: string
+export interface Today {
+  start: string,
   end: string
 }
 
@@ -15,7 +15,7 @@ export function today(): Today {
   const today = dayjs()
 
   return {
-    start: today.startOf("day").toISOString(),
-    end: today.endOf("day").toISOString(),
+    start: today.startOf('day').toISOString(),
+    end: today.endOf('day').toISOString(),
   }
 }

@@ -1,9 +1,9 @@
-import type { Dayjs, OpUnitType } from "dayjs"
+import type { Dayjs, OpUnitType } from 'dayjs'
 
-import dayjs from "dayjs"
-import ptBR from "dayjs/locale/pt-br"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 // ----------------------------------------------------------------------
 
@@ -19,21 +19,21 @@ export type DatePickerFormat = Date | Dayjs | null | number | string | undefined
  * Docs: https://day.js.org/docs/en/display/format
  */
 export const formatStr = {
-  date: "DD MMM YYYY", // 17 Apr 2022
-  dateTime: "DD MMMM YYYY HH:mm", // 17 Apr 2022 12:00 am
+  date: 'DD MMM YYYY', // 17 Apr 2022
+  dateTime: 'DD MMMM YYYY HH:mm', // 17 Apr 2022 12:00 am
   paramCase: {
-    date: "DD-MM-YYYY", // 17-04-2022
-    dateTime: "DD-MM-YYYY h:mm a", // 17-04-2022 12:00 am
+    date: 'DD-MM-YYYY', // 17-04-2022
+    dateTime: 'DD-MM-YYYY h:mm a', // 17-04-2022 12:00 am
   },
   split: {
-    date: "DD/MM/YYYY", // 17/04/2022
-    dateTime: "DD/MM/YYYY h:mm a", // 17/04/2022 12:00 am
+    date: 'DD/MM/YYYY', // 17/04/2022
+    dateTime: 'DD/MM/YYYY h:mm a', // 17/04/2022 12:00 am
   },
-  time: "h:mm a", // 12:00 am
+  time: 'h:mm a', // 12:00 am
 }
 
 export function today(format?: string) {
-  return dayjs(new Date()).startOf("day").format(format)
+  return dayjs(new Date()).startOf('day').format(format)
 }
 
 // ----------------------------------------------------------------------
@@ -48,7 +48,7 @@ export function fDateTime(date: DatePickerFormat, format?: string) {
 
   const isValid = dayjs(date).isValid()
 
-  return isValid ? dayjs(date).format(format ?? formatStr.dateTime) : "Invalid time value"
+  return isValid ? dayjs(date).format(format ?? formatStr.dateTime) : 'Invalid time value'
 }
 
 // ----------------------------------------------------------------------
@@ -63,7 +63,7 @@ export function fDate(date: DatePickerFormat, format?: string) {
 
   const isValid = dayjs(date).isValid()
 
-  return isValid ? dayjs(date).format(format ?? formatStr.date) : "Invalid time value"
+  return isValid ? dayjs(date).format(format ?? formatStr.date) : 'Invalid time value'
 }
 
 // ----------------------------------------------------------------------
@@ -78,7 +78,7 @@ export function fTime(date: DatePickerFormat, format?: string) {
 
   const isValid = dayjs(date).isValid()
 
-  return isValid ? dayjs(date).format(format ?? formatStr.time) : "Invalid time value"
+  return isValid ? dayjs(date).format(format ?? formatStr.time) : 'Invalid time value'
 }
 
 // ----------------------------------------------------------------------
@@ -93,7 +93,7 @@ export function fTimestamp(date: DatePickerFormat) {
 
   const isValid = dayjs(date).isValid()
 
-  return isValid ? dayjs(date).valueOf() : "Invalid time value"
+  return isValid ? dayjs(date).valueOf() : 'Invalid time value'
 }
 
 // ----------------------------------------------------------------------
@@ -108,7 +108,7 @@ export function fToNow(date: DatePickerFormat) {
 
   const isValid = dayjs(date).isValid()
 
-  return isValid ? dayjs(date).toNow(true) : "Invalid time value"
+  return isValid ? dayjs(date).toNow(true) : 'Invalid time value'
 }
 
 // ----------------------------------------------------------------------
@@ -154,10 +154,10 @@ export function fIsSame(startDate: DatePickerFormat, endDate: DatePickerFormat, 
   const isValid = dayjs(startDate).isValid() && dayjs(endDate).isValid()
 
   if (!isValid) {
-    return "Invalid time value"
+    return 'Invalid time value'
   }
 
-  return dayjs(startDate).isSame(endDate, units ?? "year")
+  return dayjs(startDate).isSame(endDate, units ?? 'year')
 }
 
 // ----------------------------------------------------------------------
@@ -175,7 +175,7 @@ export function fDateRangeShortLabel(startDate: DatePickerFormat, endDate: DateP
   const isAfter = fIsAfter(startDate, endDate)
 
   if (!isValid || isAfter) {
-    return "Invalid time value"
+    return 'Invalid time value'
   }
 
   let label = `${fDate(startDate)} - ${fDate(endDate)}`
@@ -184,14 +184,14 @@ export function fDateRangeShortLabel(startDate: DatePickerFormat, endDate: DateP
     return label
   }
 
-  const isSameYear = fIsSame(startDate, endDate, "year")
-  const isSameMonth = fIsSame(startDate, endDate, "month")
-  const isSameDay = fIsSame(startDate, endDate, "day")
+  const isSameYear = fIsSame(startDate, endDate, 'year')
+  const isSameMonth = fIsSame(startDate, endDate, 'month')
+  const isSameDay = fIsSame(startDate, endDate, 'day')
 
   if (isSameYear && !isSameMonth) {
-    label = `${fDate(startDate, "DD MMM")} - ${fDate(endDate)}`
+    label = `${fDate(startDate, 'DD MMM')} - ${fDate(endDate)}`
   } else if (isSameYear && isSameMonth && !isSameDay) {
-    label = `${fDate(startDate, "DD")} - ${fDate(endDate)}`
+    label = `${fDate(startDate, 'DD')} - ${fDate(endDate)}`
   } else if (isSameYear && isSameMonth && isSameDay) {
     label = `${fDate(endDate)}`
   }
@@ -202,12 +202,12 @@ export function fDateRangeShortLabel(startDate: DatePickerFormat, endDate: DateP
 // ----------------------------------------------------------------------
 
 export interface DurationProps {
-  days?: number
-  hours?: number
-  milliseconds?: number
-  minutes?: number
-  months?: number
-  seconds?: number
+  days?: number,
+  hours?: number,
+  milliseconds?: number,
+  minutes?: number,
+  months?: number,
+  seconds?: number,
   years?: number
 }
 

@@ -1,6 +1,5 @@
-"use client"
+'use client'
 
-import { ClipboardCheckIcon, Home, Settings, Users } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -12,31 +11,32 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
+import { ClipboardCheckIcon, Home, Settings } from 'lucide-react'
 
 const menuItems = [
-  { icon: Home, label: "Dashboard", href: "/dashboard" },
+  { icon: Home, label: 'Dashboard', href: '/dashboard' },
   // { icon: ClipboardCheckIcon, label: "Relatórios", href: "/reports" },
-  { icon: ClipboardCheckIcon, label: "Pedidos", href: "/dashboard/orders" },
-  { icon: Settings, label: "Configurações", href: "/dashboard/settings" },
+  { icon: ClipboardCheckIcon, label: 'Pedidos', href: '/dashboard/orders' },
+  { icon: Settings, label: 'Configurações', href: '/dashboard/settings' },
 ]
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <h2 className="p-2 text-xl font-bold">Painel Mercado Livre</h2>
+        <h2 className='p-2 text-xl font-bold'>Painel Mercado Livre</h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {menuItems.map(item => (
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild>
                     <a href={item.href}>
-                      <item.icon className="mr-2 size-4" />
+                      <item.icon className='mr-2 size-4' />
                       <span>{item.label}</span>
                     </a>
                   </SidebarMenuButton>

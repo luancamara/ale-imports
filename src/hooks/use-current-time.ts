@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 export function useCurrentTime(msBetweenUpdates: number = 1_000) {
   const [curTime, setCurTime] = useState(new Date())
