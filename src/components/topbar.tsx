@@ -2,7 +2,6 @@
 
 import { Clock } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { NetworkStatus } from "@/components/network-status"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,6 +13,10 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { useCurrentTime } from "@/hooks/use-current-time"
 import { fDateTime } from "@/utils/format-time"
+import dynamic from "next/dynamic"
+import { Loading } from "@/components/ui/loading"
+
+const NoSSRNetwork = dynamic(() => import("@/components/network-status"), { ssr: false, loading: () => <Loading /> })
 
 export function Topbar() {
   const pathname = usePathname()
@@ -50,7 +53,7 @@ export function Topbar() {
         <div className="mt-2 flex items-center space-x-4 sm:mt-0">
           <Clock className="size-5" />
           <span className="hidden sm:inline">{fDateTime(time)}</span>
-          <NetworkStatus />
+          <NoSSRNetwork />
         </div>
       </div>
     </header>

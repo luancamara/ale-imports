@@ -30,8 +30,6 @@ type Props = {
 }
 
 export function MLPieChart({ data }: Props) {
-  console.log(data)
-
   return (
     <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px]">
       <PieChart>
