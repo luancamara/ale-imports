@@ -5,7 +5,7 @@ import { api } from "@/lib/axios"
 import { today } from "@/lib/utils"
 import { MlGetOrdersResponse } from "@/types/ml/orders"
 
-export async function getOrders() {
+export async function getOrders(): Promise<MlGetOrdersResponse> {
   const { start, end } = today()
 
   const { data }: AxiosResponse<MlGetOrdersResponse> = await api.get("/orders/search", {
@@ -16,5 +16,5 @@ export async function getOrders() {
     },
   })
 
-  return data.results
+  return data
 }

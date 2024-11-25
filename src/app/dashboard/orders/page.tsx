@@ -1,6 +1,5 @@
 import { Metadata } from "next"
-import MainLayout from "@/components/main-layout"
-import { OrderTable } from "@/components/order-table"
+import OrderTable from "@/components/order-table"
 
 export const metadata: Metadata = {
   title: "Ale Imports | Orders",
