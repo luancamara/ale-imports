@@ -1,6 +1,6 @@
 'use client'
 
-import type { MlGetOrdersResponse, MLGetOrdersResults, Result } from '@/types/ml/orders'
+import type { MLGetOrderResponse, MlGetOrdersResponse, MLGetOrdersResults } from '@/types/ml/orders'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -52,7 +52,7 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
   const [currentPage, setCurrentPage] = useState(1)
   const [filter, setFilter] = useState('')
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date_created', direction: 'desc' })
-  const [selectedOrder, setSelectedOrder] = useState<Result | null>(null)
+  const [selectedOrder, setSelectedOrder] = useState<MLGetOrderResponse | null>(null)
 
   const formatDate = (date: string | Date) => {
     return dayjs(date).format('DD [de] MMMM [de] YYYY [às] HH:mm')
@@ -90,7 +90,7 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
     }))
   }
 
-  const handleRowClick = (order: Result) => {
+  const handleRowClick = (order: MLGetOrderResponse) => {
     setSelectedOrder(order)
   }
 

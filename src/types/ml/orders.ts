@@ -186,9 +186,9 @@ export const ResultSchema = z.object({
   status: z.string(),
   context: ContextSchema,
 })
-export type Result = z.infer<typeof ResultSchema>
+export type MLGetOrderResponse = z.infer<typeof ResultSchema>
 
-export type MLGetOrdersResults = Result[]
+export type MLGetOrdersResults = MLGetOrderResponse[]
 
 export const MlGetOrdersResponseSchema = z.object({
   query: z.string(),
