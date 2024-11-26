@@ -1,4 +1,4 @@
-import * as z from "zod"
+import * as z from 'zod'
 
 export const MLWebhookSchema = z.object({
   _id: z.string(),
