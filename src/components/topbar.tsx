@@ -1,5 +1,6 @@
 'use client'
 
+import { Iconify } from '@/components/iconify'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,15 +9,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Loading } from '@/components/ui/loading'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { useCurrentTime } from '@/hooks/use-current-time'
 import { fDateTime } from '@/utils/format-time'
 import { Clock } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
+import { Fragment } from 'react'
 
-const NoSSRNetwork = dynamic(() => import('@/components/network-status'), { ssr: false, loading: () => <Loading /> })
+const NoSSRNetwork = dynamic(() => import('@/components/network-status'), { ssr: false, loading: () => <Iconify icon='line-md:loading-loop' /> })
 
 export function Topbar() {
   const pathname = usePathname()
@@ -34,19 +35,22 @@ export function Topbar() {
           <BreadcrumbSeparator />
           {pathSegments.map((segment, index) => {
             const href = `/${pathSegments.slice(0, index + 1).join('/')}`
+            const isLast = index === pathSegments.length - 1
             return (
-              <BreadcrumbItem key={href} className='capitalize'>
-                {index === pathSegments.length - 1
-                  ? (
-                      <BreadcrumbPage>{segment}</BreadcrumbPage>
-                    )
-                  : (
-                      <>
-                        <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
-                        <BreadcrumbSeparator />
-                      </>
-                    )}
-              </BreadcrumbItem>
+              <Fragment key={href}>
+                <BreadcrumbItem key={href} className='capitalize'>
+                  {isLast
+                    ? (
+                        <BreadcrumbPage>{segment}</BreadcrumbPage>
+                      )
+                    : (
+                        <>
+                          <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
+                        </>
+                      )}
+                </BreadcrumbItem>
+                {!isLast && <BreadcrumbSeparator />}
+              </Fragment>
             )
           })}
         </BreadcrumbList>

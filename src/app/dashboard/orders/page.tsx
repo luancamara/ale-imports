@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import OrderTable from '@/components/order-table'
+import { EnhancedOrderTable } from '@/components/enhanced-order-table'
 
 export const metadata: Metadata = {
   title: 'Ale Imports | Orders',
@@ -19,5 +19,5 @@ export const metadata: Metadata = {
 }
 
 export default function OrdersPage() {
-  return <OrderTable />
+  return <EnhancedOrderTable />
 }

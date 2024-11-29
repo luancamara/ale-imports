@@ -1,3 +1,6 @@
+import { SettingsProvider } from '@/components/settings'
+import { detectSettings } from '@/components/settings/server'
+import { ThemeProvider } from '@/theme/theme-provider'
 import { Inter } from 'next/font/google'
 import '@/styles/tailwind.css'
 
@@ -8,10 +11,18 @@ export const metadata = {
   description: 'A base webapp with sidebar and topbar',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await detectSettings()
+
   return (
-    <html lang='en'>
-      <body className={inter.className}>{children}</body>
+    <html lang='pt-BR'>
+      <body className={inter.className}>
+        <SettingsProvider caches='cookie' settings={settings}>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </SettingsProvider>
+      </body>
     </html>
   )
 }

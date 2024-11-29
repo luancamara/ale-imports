@@ -1,12 +1,14 @@
 'use client'
 
-import type { MLGetOrderResponse, MlGetOrdersResponse, MLGetOrdersResults } from '@/types/ml/orders'
+import type { MLGetOrderResponse, MlGetOrdersResponse } from '@/types/ml/orders'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
+import { Loading } from '@/components/ui/loading'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useOrders } from '@/hooks/use-orders'
 import dayjs from 'dayjs'
 import { ChevronDown, ChevronUp, MoreHorizontal } from 'lucide-react'
 import { useState } from 'react'
@@ -47,8 +49,16 @@ interface Props {
   orders: MlGetOrdersResponse
 }
 
-export function EnhancedOrderTable({ orders: { results: initialOrders, paging } }: Props) {
-  const [orders, setOrders] = useState<MLGetOrdersResults>(initialOrders)
+export function EnhancedOrderTable() {
+  const { data: orders, loading, error } = useOrders()
+
+  console.info(orders?.filter(order => !order?.shipping?.status).map(order => order?.id))
+
+  // if (data) {
+  //   const o = Object.groupBy(data, item => item?.shipping?.logistic_type ?? 'unknown')
+  //   console.log(o)
+  // }
+
   const [currentPage, setCurrentPage] = useState(1)
   const [filter, setFilter] = useState('')
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date_created', direction: 'desc' })
@@ -62,12 +72,13 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency }).format(amount)
   }
 
-  const filteredOrders = orders.filter(
-    order =>
-      order.id.toString().includes(filter)
-      || order.buyer.nickname.toLowerCase().includes(filter.toLowerCase())
-      || order.status.toLowerCase().includes(filter.toLowerCase())
-  )
+  const filteredOrders
+    = orders?.filter(
+      order =>
+        order?.id.toString().includes(filter)
+        || order?.buyer.nickname.toLowerCase().includes(filter.toLowerCase())
+        || order?.status.toLowerCase().includes(filter.toLowerCase())
+    ) ?? []
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -94,6 +105,10 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
     setSelectedOrder(order)
   }
 
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <div className='container mx-auto py-10'>
       <div className='mb-4'>
@@ -109,7 +124,6 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
           <TableRow>
             <TableHead className='w-[100px]' onClick={() => handleSort('id')}>
               Order ID
-              {' '}
               {sortConfig.key === 'id'
               && (sortConfig.direction === 'asc'
                 ? (
@@ -121,7 +135,6 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
             </TableHead>
             <TableHead onClick={() => handleSort('date_created')}>
               Date Created
-              {' '}
               {sortConfig.key === 'date_created'
               && (sortConfig.direction === 'asc'
                 ? (
@@ -133,7 +146,6 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
             </TableHead>
             <TableHead onClick={() => handleSort('status')}>
               Status
-              {' '}
               {sortConfig.key === 'status'
               && (sortConfig.direction === 'asc'
                 ? (
@@ -146,7 +158,6 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
             <TableHead>Buyer</TableHead>
             <TableHead onClick={() => handleSort('total_amount')}>
               Total Amount
-              {' '}
               {sortConfig.key === 'total_amount'
               && (sortConfig.direction === 'asc'
                 ? (
@@ -182,11 +193,8 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
                     </div>
                     <div className='text-sm text-muted-foreground'>
                       Quantity:
-                      {' '}
                       {item.quantity}
-                      {' '}
                       x
-                      {' '}
                       {formatCurrency(item.unit_price, order.currency_id)}
                     </div>
                   </div>
@@ -264,11 +272,8 @@ export function EnhancedOrderTable({ orders: { results: initialOrders, paging } 
       <div className='mt-4 flex items-center justify-between'>
         <div>
           Page
-          {' '}
           {currentPage}
-          {' '}
           of
-          {' '}
           {totalPages}
         </div>
         <div>

@@ -18,7 +18,6 @@ import jsxA11y from "eslint-plugin-jsx-a11y"
 import playwright from "eslint-plugin-playwright"
 import tailwind from "eslint-plugin-tailwindcss"
 import testingLibrary from "eslint-plugin-testing-library"
-import { fixupPluginRules } from "@eslint/compat"
 
 export default combine(
   ignores(["migrations/**/*", "next-env.d.ts", "eslint.config.mjs", "node-modules", ".next", "src/components/ui/*"]),
@@ -89,7 +88,7 @@ async function next() {
     {
       name: "antfu/next/setup",
       plugins: {
-        "@next/next": fixupPluginRules(nextPlugin),
+        "@next/next": nextPlugin,
       },
       rules: {
         ...nextPlugin.configs["core-web-vitals"].rules,

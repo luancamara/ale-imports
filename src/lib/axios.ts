@@ -20,6 +20,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   response => response,
   async (error: AxiosError) => {
+    console.group('Axios Error')
+    console.error('Status: ', error.status)
+    console.error('Status text: ', error.response?.statusText)
+    console.error('Data: ', error.response?.data)
+    console.error('Config: ', error.config)
+    console.groupEnd()
+
     if (
       error.response
       && error.response.status === 401

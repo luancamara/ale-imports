@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { getFirestore } from '@firebase/firestore'
+import { getFirestore, initializeFirestore } from '@firebase/firestore'
 import { getApps, initializeApp } from 'firebase/app'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,5 +16,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = getApps().length ? getApps()[0]! : initializeApp(firebaseConfig)
+
+initializeFirestore(app, {
+  ignoreUndefinedProperties: true,
+})
 
 export const firestore = getFirestore(app)
