@@ -16,26 +16,41 @@ export async function POST(request: NextRequest) {
     return NextResponse.error()
   }
 
+  const { resource } = data
+
   const webhookDocRef = doc(firestore, 'webhooks', data._id)
 
   await setDoc(webhookDocRef, data)
 
-  if (!data.topic.includes('orders')) {
+  if (data.topic.includes('orders')) {
+    const { data: order } = await api.get<MLGetOrderResponse>(resource)
+
+    const { data: shipping } = await api.get<MlGetShippingResponse>(`${resource}/shipments`)
+
+    const docRef = doc(firestore, resource)
+
+    await setDoc(docRef, {
+      ...order,
+      shipping,
+    })
+
     return NextResponse.json({ status: 200 })
   }
 
-  const { resource } = data
+  if (data.topic.includes('shipments')) {
+    const { data: shipping } = await api.get<MlGetShippingResponse>(`${resource}`)
 
-  const { data: order } = await api.get<MLGetOrderResponse>(resource)
+    const { data: order } = await api.get<MLGetOrderResponse>(`/orders/${shipping.order_id}`)
 
-  const { data: shipping } = await api.get<MlGetShippingResponse>(`${resource}/shipments`)
+    const docRef = doc(firestore, resource)
 
-  const docRef = doc(firestore, resource)
+    await setDoc(docRef, {
+      ...order,
+      shipping,
+    })
 
-  await setDoc(docRef, {
-    ...order,
-    shipping,
-  })
+    return NextResponse.json({ status: 200 })
+  }
 
   return NextResponse.json({ status: 200 })
 }
