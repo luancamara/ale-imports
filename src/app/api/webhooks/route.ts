@@ -16,11 +16,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.error()
   }
 
-  const { resource } = data
+  const { resource, user_id } = data
 
   const webhookDocRef = doc(firestore, 'webhooks', data._id)
 
   await setDoc(webhookDocRef, data)
+
+  if (user_id !== 740458955) {
+    return NextResponse.json({ status: 200 })
+  }
 
   if (data.topic.includes('orders') && !data.topic.includes('feedback')) {
     const { data: order } = await api.get<MLGetOrderResponse>(resource)
