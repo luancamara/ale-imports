@@ -16,6 +16,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.error()
   }
 
+  const webhookDocRef = doc(firestore, 'webhooks', data._id)
+
+  await setDoc(webhookDocRef, data)
+
   if (!data.topic.includes('orders')) {
     return NextResponse.json({ status: 200 })
   }
